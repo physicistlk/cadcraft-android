@@ -6,7 +6,7 @@ and egui interface, packaged as a NativeActivity APK for sideloading on arm64 de
 | | |
 |---|---|
 | Upstream project | [`storytold/cadcraft`](https://github.com/storytold/cadcraft) — Apache-2.0 OR MIT |
-| Pinned commit | `b8c3f3aa8` (upstream version `0.17.0`) |
+| Pinned commit | `a54d694f` (upstream version `0.17.1`) |
 | Android package | `ai.storyteller.cadcraft` |
 | Published APK | `cadcraft-0.7.0-arm64-v8a-20261013.apk` — 25.2 MB, arm64-v8a, signed (release **v0.1.1**, 2026-10-13) |
 | APK sha256 | `4cfcfc2a87399f23c3af67c4eb16907e58550f648dc09c9a716c15377a926e27` |
