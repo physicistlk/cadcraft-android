@@ -1,10 +1,48 @@
-diff --git a/Cargo.toml b/Cargo.toml
-index ee2dc2f..0a2b4e9 100644
---- a/Cargo.toml
-+++ b/Cargo.toml
-@@ -117,4 +117,4 @@ egui_system_font_provider = { git = "https://github.com/storytold/egui.git", rev
- eframe = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
- egui_demo_lib = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
- egui_inspection = { git = "https://github.com/storytold/egui.git", rev = "6d518fc799681571963842f95b55a6b68431b15a" }
--winit = { git = "https://github.com/storytold/winit.git", rev = "a517b3846ee8457d84ee4975110bfda6797c44dc" }
-+winit = { path = "vendor/winit" }
+diff --git a/Cargo.lock b/Cargo.lock
+index 92d3ca6f..44bd31a6 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -642,6 +642,21 @@ dependencies = [
+  "zbus",
+ ]
+ 
++[[package]]
++name = "cadcraft-android"
++version = "0.18.0"
++dependencies = [
++ "cadcraft-doc",
++ "cadcraft-engine",
++ "cadcraft-io",
++ "cadcraft-ui-egui",
++ "eframe",
++ "egui",
++ "jni",
++ "log",
++ "winit",
++]
++
+ [[package]]
+ name = "cadcraft-cli"
+ version = "0.18.0"
+@@ -5772,7 +5787,6 @@ checksum = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
+ [[package]]
+ name = "winit"
+ version = "0.30.13"
+-source = "git+https://github.com/storytold/winit.git?rev=a517b3846ee8457d84ee4975110bfda6797c44dc#a517b3846ee8457d84ee4975110bfda6797c44dc"
+ dependencies = [
+  "ahash",
+  "android-activity",
+@@ -6292,3 +6306,13 @@ dependencies = [
+  "syn 3.0.9",
+  "winnow",
+ ]
++
++[[patch.unused]]
++name = "egui_demo_lib"
++version = "0.37.0"
++source = "git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a#6d518fc799681571963842f95b55a6b68431b15a"
++
++[[patch.unused]]
++name = "egui_inspection"
++version = "0.37.0"
++source = "git+https://github.com/storytold/egui.git?rev=6d518fc799681571963842f95b55a6b68431b15a#6d518fc799681571963842f95b55a6b68431b15a"
