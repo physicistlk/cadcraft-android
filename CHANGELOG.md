@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-11-09 — Re-pinned to upstream 0.19.0
+
+| | |
+|---|---|
+| APK | `cadcraft-0.19.0-arm64-v8a-20261109.apk` — 16.9 MiB |
+| APK sha256 | `1c7773a07a591756a1772ab800ed5548c2cbac31bbda526f3a27863e9f3fc519` |
+| Upstream pin | `227e3c385b20129cf525775e3d9cbe78b722b3bb` (upstream `0.19.0`) — was `a54d694f` (`0.17.1`) in the README, built at `v0.18.0` |
+| Package | `ai.storyteller.cadcraft` — versionName `0.19.0`, versionCode `16782080`, minSdk 26, targetSdk 35 |
+| ABI | `arm64-v8a` only, ELF segments 16 KB-aligned (`0x4000`) |
+
+### Changed
+- **The upstream pin moved to 0.19.0.** The patch applied with `git apply -3` without a single
+  conflict: upstream kept the same winit and egui fork revisions, and none of the shell crate's
+  seams (`Services`, `FileDialogRequest`, `ImportOptions`, the Android `NativeOptions`, the
+  `egui-winit` input path) changed. `apps/cadcraft-android/` is byte-for-byte what 0.18.0 shipped;
+  `cargo check -p cadcraft-android --target aarch64-linux-android` is clean.
+- **The canonical patch carries the `Cargo.toml` hunk again.** The 0.18.0 patch had been exported
+  from the unstaged diff, so it held only `Cargo.lock` and a fresh checkout would have resolved
+  `winit` from the git fork instead of `vendor/winit` (losing the trackpad-wheel/pen-hover fixes).
+  It is now exported from `git diff HEAD` and includes both `Cargo.toml` (the `winit` path
+  replacement plus the two egui patch entries) and `Cargo.lock`; `git apply --check` passes on a
+  clean `v0.19.0` checkout.
+- **`versionCode` moves to `16782080`** (from `16779008`), so the update installs over 0.18.0.
+
+### Unchanged, deliberately
+- The shell crate, the in-app picker, intents/share, the clipboard bridge, modifier synthesis,
+  background saves and the 16 KB page-size link flag are untouched: the build is the same port on a
+  newer engine.
+
 ## 2026-10-30 — The system clipboard (text)
 
 | | |
