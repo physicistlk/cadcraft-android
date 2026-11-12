@@ -1,5 +1,41 @@
 # Changelog
 
+## 2026-11-12 — Re-pinned to upstream 0.20.1
+
+| | |
+|---|---|
+| APK | `cadcraft-0.20.1-arm64-v8a-20261112.apk` — 16.9 MiB |
+| APK sha256 | `575ab1f1fd69b45ea704162c90c9ffee83e72ddeecd64985c74209513e796bf4` |
+| Upstream pin | `7526dc62c14e71b3c8d46e73bbf1fa29ef506af1` (upstream `0.20.1`, the patch release on top of `0.20.0`) — was `227e3c38` (`0.19.0`) |
+| Package | `ai.storyteller.cadcraft` — versionName `0.20.1`, versionCode `16782337`, minSdk 26, targetSdk 35 |
+| ABI | `arm64-v8a` only, ELF segments 16 KB-aligned (`0x4000`) |
+
+### Changed
+- **The upstream pin moved to 0.20.0 + 0.20.1.** This is the 0.20 series' breaking bump plus its
+  Flatpak-update patch release. The patch applied with `git apply -3` without a single conflict:
+  the winit and egui fork revisions are unchanged, and none of the shell crate's seams
+  (`Services`, `FileDialogRequest`, `ImportOptions`, the Android `NativeOptions`, the
+  `egui-winit` input path) moved. `apps/cadcraft-android/` is byte-for-byte what 0.19.0 shipped;
+  `cargo check -p cadcraft-android --target aarch64-linux-android` is clean (warnings only), and
+  no hand re-port was needed.
+- **0.20's new desktop-only surface stays out of the port.** Upstream 0.20 added the macOS
+  save-as sheet (`apps/cadcraft/src/sheet.rs`, plus `pollster` and winit's `rwh_06` feature) and
+  reworked `cadcraft-ui-egui`'s closing/exchange/managers paths. The Android shell builds over
+  those changes as they are; the sheet code is `cfg(target_os = "macos")` and never compiles here.
+- **`versionCode` moves to `16782337`** (from `16782080`), so the update installs over 0.19.0.
+- **The canonical patch was regenerated from `git diff HEAD`** and re-checked against a pristine
+  `v0.20.1` tree with `apps/cadcraft-android/` and `vendor/winit` copied in: `git apply --check`
+  printed `PATCH APPLIES CLEAN`. It still carries both hunks (`Cargo.toml`'s `winit` path
+  replacement and `Cargo.lock`'s package/list entries), so a fresh checkout builds against
+  `vendor/winit` rather than the git fork.
+
+### Unchanged, deliberately
+- The shell crate, the in-app picker, intents/share, the clipboard bridge, modifier synthesis,
+  background saves and the 16 KB page-size link flag are untouched: the build is the same port on a
+  newer engine. The verifier (`scripts/verify-apk-linux.sh`) passes: versionName `0.20.1`,
+  `native-code: 'arm64-v8a'`, v2 + v3 signatures, `android_main` and `ANativeActivity_onCreate`
+  exported, all four LOAD segments `0x4000`-aligned.
+
 ## 2026-11-09 — Re-pinned to upstream 0.19.0
 
 | | |

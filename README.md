@@ -6,10 +6,10 @@ and egui interface, packaged as a NativeActivity APK for sideloading on arm64 de
 | | |
 |---|---|
 | Upstream project | [`storytold/cadcraft`](https://github.com/storytold/cadcraft) — Apache-2.0 OR MIT |
-| Pinned commit | `227e3c38` (upstream version `0.19.0`) |
+| Pinned commit | `7526dc62` (upstream version `0.20.1`) |
 | Android package | `ai.storyteller.cadcraft` |
-| Published APK | `cadcraft-0.19.0-arm64-v8a-20261109.apk` — 16.9 MiB, arm64-v8a, signed (2026-11-09) |
-| APK sha256 | `1c7773a07a591756a1772ab800ed5548c2cbac31bbda526f3a27863e9f3fc519` |
+| Published APK | `cadcraft-0.20.1-arm64-v8a-20261112.apk` — 16.9 MiB, arm64-v8a, signed (2026-11-12) |
+| APK sha256 | `575ab1f1fd69b45ea704162c90c9ffee83e72ddeecd64985c74209513e796bf4` |
 | Upstream files changed | 2 files — see [`patches/`](patches/) |
 | New port crate | `apps/cadcraft-android/` — 1,206 lines of Rust plus resources |
 
@@ -37,7 +37,7 @@ JDK 21, and `cargo install cargo-apk`.
 ```bash
 git clone https://github.com/storytold/cadcraft.git
 cd cadcraft
-git fetch --depth 1 origin 227e3c385b20129cf525775e3d9cbe78b722b3bb
+git fetch --depth 1 origin 7526dc62c14e71b3c8d46e73bbf1fa29ef506af1
 git checkout FETCH_HEAD                        # the exact commit this port targets
 git apply -3 /path/to/0001-cadcraft-android-port.patch
 cp -r /path/to/cadcraft-android apps/             # the shell crate from this repository
@@ -57,7 +57,7 @@ on the `.so` inside the APK.
 ## Install
 
 ```bash
-adb install -r cadcraft-0.19.0-arm64-v8a-20261109.apk
+adb install -r cadcraft-0.20.1-arm64-v8a-20261112.apk
 ```
 or copy the APK to the device and open it (installing from unknown sources must be allowed).
 
@@ -72,7 +72,7 @@ A tick means the check was *run*, not inferred; the wording says how far it goes
 
 | Claim | How it was checked | Result |
 |---|---|---|
-| `patches/…patch` applies to a clean checkout of the pin | fresh `git init` + `git fetch --depth 1 origin 227e3c385b20129cf525775e3d9cbe78b722b3bb` + `git apply --check` | ✅ applies cleanly |
+| `patches/…patch` applies to a clean checkout of the pin | fresh `git init` + `git fetch --depth 1 origin 7526dc62c14e71b3c8d46e73bbf1fa29ef506af1` + `git apply --check` | ✅ applies cleanly |
 | The assembled tree equals the tree the APK was built from | file-by-file SHA-256 (line endings normalised) over every patched file and every file of the port crate | ✅ 20 files identical, none differing |
 | The port crate compiles for Android | `cargo check -p cadcraft-android --target aarch64-linux-android`, run in a tree assembled from scratch (fresh `git fetch` of the pin, patch applied, port crate copied in) | ✅ exit 0 (host `cargo check -p cadcraft` stays green after the shared-crate patch) |
 | Modifier-key synthesis (Ctrl / Shift / Alt) | `cargo test -p cadcraft-android` (host, pure logic) | ✅ 14/14 pass, including the cross-frame Shift case that *is* the bug |
