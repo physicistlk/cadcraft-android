@@ -1,5 +1,44 @@
 # Changelog
 
+## 2026-11-18 — Physical mouse: the right button is a real secondary click
+
+| | |
+|---|---|
+| APK | `cadcraft-0.20.1-arm64-v8a-20261118.apk` — 16.9 MiB |
+| APK sha256 | `bc419ce612a7394240c0b58afef03c2a774f3b14d441fe2f456ba39d4bcb8595` |
+| Upstream pin | `7526dc62c14e71b3c8d46e73bbf1fa29ef506af1` (upstream `0.20.1`) — unchanged; no upstream update this round |
+| Package | `ai.storyteller.cadcraft` — versionName `0.20.1`, versionCode `16782337`, minSdk 26, targetSdk 35 |
+| ABI | `arm64-v8a` only, ELF segments 16 KB-aligned (`0x4000`) |
+
+### Changed
+- **`vendor/winit/src/platform_impl/android/mod.rs` now reports a pointer device as a pointer.**
+  A physical mouse or trackpad was flattened into touch by winit's Android backend: every motion
+  and button event became a `Touch`, so a right click read as a plain tap and a long press was
+  the only route to a context menu. The vendored backend now emits `CursorMoved` + `MouseInput`
+  for `Source::Mouse` / `Source::MouseRelative` / `ToolType::Mouse`, deriving the buttons from
+  `button_state()` by diffing consecutive events (Android delivers both `ACTION_DOWN`/`UP` and
+  `ACTION_BUTTON_PRESS`/`RELEASE` for one click, in no fixed order). Right-drag, middle-click and
+  the wheel all arrive as real `MouseButton` presses.
+
+  Result: **physical mouse: right button is a real secondary click; long-press-to-context-menu no
+  longer applies to a mouse.** Because no `Touch` is reported for a mouse, egui's
+  `any_touches() && is_long_press()` heuristic no longer fires for it.
+- **Finger input is untouched.** Non-mouse events fall through to the old touch path unchanged,
+  and a device that reports no button state still takes it, so nothing regresses on a tablet.
+- **No app-code change.** `apps/cadcraft-android/` is byte-for-byte what 0.20.1 shipped. The patch
+  is still exactly two files (`Cargo.toml`, `Cargo.lock`) and is byte-identical to the previous
+  round's, so only the vendored winit differs in the built artifact.
+- **`cargo check -p cadcraft-android --target aarch64-linux-android`** is clean (warnings only),
+  and the build recompiled `winit v0.30.13 (/…/vendor/winit)` — the fix is in the shipped `.so`,
+  not left in the tree.
+
+### Unchanged, deliberately
+- Version, pin, patch and shell crate are as 2026-11-12; only the vendored winit backend moved.
+  The verifier (`scripts/verify-apk-linux.sh`) passes: versionName `0.20.1`,
+  `native-code: 'arm64-v8a'`, v2 + v3 signatures, `android_main` and `ANativeActivity_onCreate`
+  exported, all four LOAD segments `0x4000`-aligned, `lib_name=cadcraft`. The canonical patch was
+  regenerated and re-checked against a pristine `v0.20.1` tree: `PATCH APPLIES CLEAN`.
+
 ## 2026-11-12 — Re-pinned to upstream 0.20.1
 
 | | |

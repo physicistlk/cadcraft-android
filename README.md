@@ -8,8 +8,8 @@ and egui interface, packaged as a NativeActivity APK for sideloading on arm64 de
 | Upstream project | [`storytold/cadcraft`](https://github.com/storytold/cadcraft) — Apache-2.0 OR MIT |
 | Pinned commit | `7526dc62` (upstream version `0.20.1`) |
 | Android package | `ai.storyteller.cadcraft` |
-| Published APK | `cadcraft-0.20.1-arm64-v8a-20261112.apk` — 16.9 MiB, arm64-v8a, signed (2026-11-12) |
-| APK sha256 | `575ab1f1fd69b45ea704162c90c9ffee83e72ddeecd64985c74209513e796bf4` |
+| Published APK | `cadcraft-0.20.1-arm64-v8a-20261118.apk` — 16.9 MiB, arm64-v8a, signed (2026-11-18) |
+| APK sha256 | `bc419ce612a7394240c0b58afef03c2a774f3b14d441fe2f456ba39d4bcb8595` |
 | Upstream files changed | 2 files — see [`patches/`](patches/) |
 | New port crate | `apps/cadcraft-android/` — 1,206 lines of Rust plus resources |
 
@@ -57,7 +57,7 @@ on the `.so` inside the APK.
 ## Install
 
 ```bash
-adb install -r cadcraft-0.20.1-arm64-v8a-20261112.apk
+adb install -r cadcraft-0.20.1-arm64-v8a-20261118.apk
 ```
 or copy the APK to the device and open it (installing from unknown sources must be allowed).
 
